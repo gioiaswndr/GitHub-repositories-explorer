@@ -81,22 +81,25 @@ export default function MyComponent({ name, url, id, onPressHandler, setUrl, rep
         >
           {/* <List.Item title="List item 1" />
           <List.Item title="List item 2" /> */}
-          {repo.length > 1 ?
-            repo?.map((item, index) => {
-              return <View key={index} className='bg-yellow-200 w-[350] self-center mx-1 my-1'>
-                <View className='flex-row justify-between'>
-                  <View className='bg-green-200 w-[290] p-4'>
-                    <Text className='text-lg font-bold'>{item?.name}</Text>
-                    <Text>{item?.description}</Text>
-                  </View>
-                  <View className='bg-blue-300 flex-1'>
-                    <Text className='m-auto'>{item?.stargazers_count}⭐️</Text>
-                  </View>
-                </View>
-              </View>
-            }) :
+          {
+            !repo ? <View className='bg-green-200 w-[350] h-[50] self-center mx-1 my-1'><Text className='m-auto text-lg'>LOADING</Text></View> :
 
-            <View className='bg-yellow-200 w-[350] h-[50] self-center mx-1 my-1'><Text className='m-auto text-lg'>repo is empty</Text></View>
+              repo?.length > 1 ?
+                repo?.map((item, index) => {
+                  return <View key={index} className='bg-yellow-200 w-[350] self-center mx-1 my-1'>
+                    <View className='flex-row justify-between'>
+                      <View className='bg-green-200 w-[290] p-4'>
+                        <Text className='text-lg font-bold'>{item?.name}</Text>
+                        <Text>{item?.description}</Text>
+                      </View>
+                      <View className='bg-blue-300 flex-1'>
+                        <Text className='m-auto'>{item?.stargazers_count}⭐️</Text>
+                      </View>
+                    </View>
+                  </View>
+                }) :
+
+                <View className='bg-yellow-200 w-[350] h-[50] self-center mx-1 my-1'><Text className='m-auto text-lg'>repo is empty</Text></View>
 
           }
 
