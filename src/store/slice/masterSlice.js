@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { API_KEY } from "@env"
 
 const initialState = {
   value: 0,
   users: [],
-  repos: []
+  repos: [],
+  oneUrl: ''
 }
 
 export const masterSlice = createSlice({
@@ -25,23 +27,31 @@ export const masterSlice = createSlice({
       state.value += action.payload
     },
     setUsers: (state, action) => {
-      console.log(action, "<<<< di sini bro")
       state.users = action.payload
     },
     setRepos: (state, action) => {
-      console.log(action?.payload?.length, "<<<<<< otw masukin")
-    }
+      const newItems = state?.users?.items?.map((item) => {
+        console.log(item)
+        if (item?.login === action?.payload.name) {
+          return { ...item, repo: action.payload.data }
+        }
+        return { ...item }
+      })
+      const newUsers = { ...state.users, items: newItems }
+      state.users = newUsers
+    },
   },
 })
 
 export async function searchCharacters(search) {
+
   try {
     const res = await fetch(
       `https://api.github.com/search/users?q=${search}&per_page=5`,
       {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${process.env.REACT_APP_TOKEN}`,
+          "Authorization": `Bearer ${API_KEY}`,
           "X-GitHub-Api-Version": "2022-11-28",
           "Accept": "application/vnd.github+json"
         }
@@ -55,20 +65,19 @@ export async function searchCharacters(search) {
   }
 }
 
-export const getRepo = (repoLink) => async dispatch => {
+export const getRepo = (repoLink, name) => async dispatch => {
   try {
-    console.log(repoLink, ">>> in di reducer")
+
     const res = await fetch(repoLink)
     const data = await res.json();
-    console.log(data.length)
-    dispatch(setRepos(data))
+    dispatch(setRepos({ data, name }))
   } catch (error) {
-
+    console.log(error)
   }
 }
 
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, setUsers, setRepos } = masterSlice.actions
+export const { increment, decrement, incrementByAmount, setUsers, setRepos, setOneUrl } = masterSlice.actions
 
 export default masterSlice.reducer
