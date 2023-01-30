@@ -17,7 +17,6 @@ export const masterSlice = createSlice({
     },
     setRepos: (state, action) => {
       const newItems = state?.users?.items?.map((item) => {
-        console.log(item)
         if (item?.login === action?.payload.name) {
           return { ...item, repo: action.payload.data }
         }
