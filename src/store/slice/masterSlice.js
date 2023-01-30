@@ -30,7 +30,6 @@ export const masterSlice = createSlice({
 })
 
 export async function searchCharacters(search) {
-  console.log(API_KEY)
   try {
     const res = await fetch(
       `https://api.github.com/search/users?q=${search}&per_page=5`,
@@ -53,7 +52,6 @@ export async function searchCharacters(search) {
 
 export const getRepo = (repoLink, name) => async dispatch => {
   try {
-
     const res = await fetch(repoLink)
     const data = await res.json();
     dispatch(setRepos({ data, name }))
