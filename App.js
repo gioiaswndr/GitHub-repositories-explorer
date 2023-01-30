@@ -6,10 +6,8 @@ import HomeScreen from './src/screens/HomeScreen.js';
 export default function App() {
 
   return (
-    <>
-      <Provider store={store}>
-        <HomeScreen />
-      </Provider>
-    </>
+    <Provider store={store}>
+      <HomeScreen />
+    </Provider>
   );
 }
